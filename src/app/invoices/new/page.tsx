@@ -1,3 +1,4 @@
+import { createAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +11,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold">Create Invoice</h1>
       </div>
       {/*could use shadcn form*/}
-      <form className="grid gap-4 max-w-xs">
+      <form action={createAction} className="grid gap-4 max-w-xs">
         <div>
           <Label htmlFor="name" className="block mb-2 font-semibold text-sm">
             Billing Name
@@ -36,7 +37,7 @@ export default function Home() {
           >
             Description
           </Label>
-          <Textarea id="description" name="" />
+          <Textarea id="description" name="description" />
         </div>
 
         <Button className="w-full font-semibold">Submit</Button>
