@@ -11,8 +11,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { db } from "@/db";
+import { Invoices } from "@/db/schema";
 
-export default function Page() {
+export default async function Page() {
+  const results = await db.select().from(Invoices);
+
+  console.log(results);
+
   return (
     <main className=" flex flex-col justify-center gap-6 max-w-5xl mx-auto my-12">
       <div className="flex justify-between">
@@ -38,25 +44,46 @@ export default function Page() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="text-left p-4">
-              <span className="font-semibold">05/10/2024</span>
-            </TableCell>
-            <TableCell className="text-left p-4">
-              <span className="font-semibold">Natsu Dragneel</span>
-            </TableCell>
-            <TableCell className="text-left p-4">
-              <span className="">Natsu@fairymail.com</span>
-            </TableCell>
-            <TableCell className="text-center p-4">
-              <Badge className="rounded-full">
-                <span className="font-semibold">Open</span>
-              </Badge>
-            </TableCell>
-            <TableCell className="text-right p-4">
-              <span className="font-semibold">$250.00</span>
-            </TableCell>
-          </TableRow>
+          {results.map((result) => (
+            <TableRow key={result.id}>
+              <TableCell className="text-left p-0">
+                <Link
+                  href={`/invoices/${result.id}`}
+                  className="font-semibold p-4 block"
+                >
+                  {new Date(result.createTs).toLocaleDateString()}
+                </Link>
+              </TableCell>
+              <TableCell className="text-left p-0">
+                <Link
+                  href={`/invoices/${result.id}`}
+                  className="font-semibold  p-4 block"
+                >
+                  Customer Name
+                </Link>
+              </TableCell>
+              <TableCell className="text-left p-0">
+                <Link href={`/invoices/${result.id}`} className=" p-4 block">
+                  Natsu@fairymail.com
+                </Link>
+              </TableCell>
+              <TableCell className="text-center p-0">
+                <Link href={`/invoices/${result.id}`} className=" p-4 block">
+                  <Badge className="rounded-full">
+                    <span className="font-semibold">{result.status}</span>
+                  </Badge>
+                </Link>
+              </TableCell>
+              <TableCell className="text-right p-0">
+                <Link
+                  href={`/invoices/${result.id}`}
+                  className="font-semibold p-4 block"
+                >
+                  ${(result.value / 100).toFixed(2)}
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </main>
