@@ -13,11 +13,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { db } from "@/db";
 import { Invoices } from "@/db/schema";
+import { cn } from "@/lib/utils";
 
 export default async function Page() {
   const results = await db.select().from(Invoices);
-
-  console.log(results);
 
   return (
     <main className=" flex flex-col justify-center gap-6 max-w-5xl mx-auto my-12">
@@ -69,7 +68,19 @@ export default async function Page() {
               </TableCell>
               <TableCell className="text-center p-0">
                 <Link href={`/invoices/${result.id}`} className=" p-4 block">
-                  <Badge className="rounded-full">
+                  <Badge
+                    className={cn(
+                      "rounded-full capitalize",
+                      result.status === "open" &&
+                        "bg-blue-500 hover:bg-blue-400",
+                      result.status === "paid" &&
+                        "bg-green-600 hover:bg-green-500",
+                      result.status === "void" &&
+                        "bg-zinc-700 hover:bg-zinc-600",
+                      result.status === "uncollectible" &&
+                        "bg-red-600 hover:bg-zinc-500"
+                    )}
+                  >
                     <span className="font-semibold">{result.status}</span>
                   </Badge>
                 </Link>
