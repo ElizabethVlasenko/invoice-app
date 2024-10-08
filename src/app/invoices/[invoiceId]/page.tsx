@@ -4,6 +4,7 @@ import { Invoices } from "@/db/schema";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
 export default async function page({
   params,
@@ -12,13 +13,17 @@ export default async function page({
 }) {
   const invoiceId = parseInt(params.invoiceId);
 
+  if (isNaN(invoiceId)) {
+    throw new Error("Invalid invoice ID");
+  }
+
   const [result] = await db
     .select()
     .from(Invoices)
     .where(eq(Invoices.id, invoiceId))
     .limit(1);
 
-  console.log(result);
+  if (!result) notFound();
 
   return (
     <main className="max-w-5xl mx-auto my-12">
