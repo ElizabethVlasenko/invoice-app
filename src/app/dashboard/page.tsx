@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function Home() {
+export default function Page() {
   return (
     <main className=" flex flex-col justify-center gap-6 max-w-5xl mx-auto my-12">
       <div className="flex justify-between">
