@@ -6,7 +6,8 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 //   "invoice/new",
 // ]);
 
-const isPublic = createRouteMatcher(["/"]);
+//need to add sign-in and sign-up pages as public otherwise it will redirect it to the clerk sign in page
+const isPublic = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"]);
 
 export default clerkMiddleware((auth, request) => {
   //check if the route should be protected
