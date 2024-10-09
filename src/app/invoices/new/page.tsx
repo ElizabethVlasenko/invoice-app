@@ -1,6 +1,7 @@
 "use client";
 
 import { createAction } from "@/app/actions";
+import Container from "@/components/Container";
 import SubmitButton from "@/components/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,46 +21,48 @@ export default function Page() {
   }
 
   return (
-    <main className=" flex flex-col justify-center gap-6 max-w-5xl mx-auto my-12">
-      <div className="flex justify-between">
-        <h1 className="text-3xl font-bold">Create Invoice</h1>
-      </div>
-      {/*could use shadcn form*/}
-      <Form
-        action={createAction}
-        onSubmit={handleOnSubmit}
-        className="grid gap-4 max-w-xs"
-      >
-        <div>
-          <Label htmlFor="name" className="block mb-2 font-semibold text-sm">
-            Billing Name
-          </Label>
-          <Input id="name" name="name" type="text" />
+    <main>
+      <Container>
+        <div className="flex justify-between">
+          <h1 className="text-3xl font-bold mb-6">Create Invoice</h1>
         </div>
-        <div>
-          <Label htmlFor="email" className="block mb-2 font-semibold text-sm">
-            Billing Email
-          </Label>
-          <Input id="email" name="email" type="email" />
-        </div>
-        <div>
-          <Label htmlFor="value" className="block mb-2 font-semibold text-sm">
-            Value
-          </Label>
-          <Input id="value" name="value" type="text" />
-        </div>
-        <div>
-          <Label
-            htmlFor="description"
-            className="block mb-2 font-semibold text-sm"
-          >
-            Description
-          </Label>
-          <Textarea id="description" name="description" />
-        </div>
+        {/*could use shadcn form*/}
+        <Form
+          action={createAction}
+          onSubmit={handleOnSubmit}
+          className="grid gap-4 max-w-xs"
+        >
+          <div>
+            <Label htmlFor="name" className="block mb-2 font-semibold text-sm">
+              Billing Name
+            </Label>
+            <Input id="name" name="name" type="text" />
+          </div>
+          <div>
+            <Label htmlFor="email" className="block mb-2 font-semibold text-sm">
+              Billing Email
+            </Label>
+            <Input id="email" name="email" type="email" />
+          </div>
+          <div>
+            <Label htmlFor="value" className="block mb-2 font-semibold text-sm">
+              Value
+            </Label>
+            <Input id="value" name="value" type="text" />
+          </div>
+          <div>
+            <Label
+              htmlFor="description"
+              className="block mb-2 font-semibold text-sm"
+            >
+              Description
+            </Label>
+            <Textarea id="description" name="description" />
+          </div>
 
-        <SubmitButton />
-      </Form>
+          <SubmitButton />
+        </Form>
+      </Container>
     </main>
   );
 }
