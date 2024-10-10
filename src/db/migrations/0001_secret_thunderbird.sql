@@ -1,0 +1,1 @@
+ALTER TABLE "invoices" ADD COLUMN "UserId" text NOT NULL;

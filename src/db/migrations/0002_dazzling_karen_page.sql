@@ -1,0 +1,1 @@
+ALTER TABLE "invoices" RENAME COLUMN "UserId" TO "userId";

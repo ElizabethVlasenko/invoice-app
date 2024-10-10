@@ -15,9 +15,18 @@ import { db } from "@/db";
 import { Invoices } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import Container from "@/components/Container";
+import { auth } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
 
 export default async function Page() {
-  const results = await db.select().from(Invoices);
+  const { userId } = auth();
+
+  if (!userId) return <p>Unauthorized</p>;
+
+  const results = await db
+    .select()
+    .from(Invoices)
+    .where(eq(Invoices.userId, userId));
 
   return (
     <main>

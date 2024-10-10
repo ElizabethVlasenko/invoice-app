@@ -1,11 +1,12 @@
 import { db } from "@/db";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { Invoices } from "@/db/schema";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Container from "@/components/Container";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function page({
   params,
@@ -13,6 +14,9 @@ export default async function page({
   params: { invoiceId: string };
 }) {
   const invoiceId = parseInt(params.invoiceId);
+  const { userId } = auth();
+
+  if (!userId) return <p>Unauthorized</p>;
 
   if (isNaN(invoiceId)) {
     throw new Error("Invalid invoice ID");
@@ -21,7 +25,7 @@ export default async function page({
   const [result] = await db
     .select()
     .from(Invoices)
-    .where(eq(Invoices.id, invoiceId))
+    .where(and(eq(Invoices.id, invoiceId), eq(Invoices.userId, userId)))
     .limit(1);
 
   if (!result) notFound();
