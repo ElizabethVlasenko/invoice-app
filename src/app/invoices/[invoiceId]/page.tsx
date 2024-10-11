@@ -1,12 +1,22 @@
-import { db } from "@/db";
-import { and, eq } from "drizzle-orm";
-import { Invoices } from "@/db/schema";
-import React from "react";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import { notFound } from "next/navigation";
 import Container from "@/components/Container";
+import { Badge } from "@/components/ui/badge";
+import { db } from "@/db";
+import { Invoices } from "@/db/schema";
+import { cn } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
+import { and, eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { AVAILABLE_STATUSES } from "@/data/invoices";
+import { UpdateStatusAction } from "@/app/actions";
+import { ChevronDown } from "lucide-react";
 
 export default async function page({
   params,
@@ -49,7 +59,25 @@ export default async function page({
               <span className="font-semibold">{result.status}</span>
             </Badge>
           </h1>
-          <p></p>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="flex gap-2 items-center">
+                Change status
+                <ChevronDown className="w-4 h-auto" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {AVAILABLE_STATUSES.map((status) => (
+                <DropdownMenuItem key={status.id}>
+                  <form action={UpdateStatusAction}>
+                    <input type="hidden" name="id" value={invoiceId} />
+                    <input type="hidden" name="status" value={status.id} />
+                    <button>{status.label}</button>
+                  </form>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         <p className="text-3xl mb-3">${(result.value / 100).toFixed(2)}</p>
         <p className="text-lg mb-8">{result.description}</p>
