@@ -2,7 +2,7 @@
 
 import Container from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
-import { Invoices } from "@/db/schema";
+import { Customers, Invoices } from "@/db/schema";
 import { cn } from "@/lib/utils";
 
 import { deleteInvoiceAction, UpdateStatusAction } from "@/app/actions";
@@ -29,7 +29,9 @@ import { ChevronDown, Ellipsis, Trash2 } from "lucide-react";
 import { useOptimistic } from "react";
 
 interface InvoiceProps {
-  invoice: typeof Invoices.$inferSelect;
+  invoice: typeof Invoices.$inferSelect & {
+    customer: typeof Customers.$inferSelect;
+  };
 }
 
 export default function Invoice({ invoice }: InvoiceProps) {
@@ -160,14 +162,14 @@ export default function Invoice({ invoice }: InvoiceProps) {
             <strong className="block w-28 flex-shrink-0 font-medium text-sm">
               Billing Name
             </strong>
-            <span></span>
+            <span>{invoice.customer.name}</span>
           </li>
 
           <li className="flex gap-4">
             <strong className="block w-28 flex-shrink-0 font-medium text-sm">
               Billing Email
             </strong>
-            <span></span>
+            <span>{invoice.customer.email}</span>
           </li>
         </ul>
       </Container>
