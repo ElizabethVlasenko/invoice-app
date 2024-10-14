@@ -27,8 +27,6 @@ export default async function page({
     .where(and(eq(Invoices.id, invoiceId), eq(Invoices.userId, userId)))
     .limit(1);
 
-  console.log(result);
-
   if (!result) notFound();
 
   const invoice = {
