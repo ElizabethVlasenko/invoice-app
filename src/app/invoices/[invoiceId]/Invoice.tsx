@@ -25,8 +25,9 @@ import {
 } from "@/components/ui/dialog";
 
 import { AVAILABLE_STATUSES } from "@/data/invoices";
-import { ChevronDown, Ellipsis, Trash2 } from "lucide-react";
+import { ChevronDown, CreditCard, Ellipsis, Trash2 } from "lucide-react";
 import { useOptimistic } from "react";
+import Link from "next/link";
 
 interface InvoiceProps {
   invoice: typeof Invoices.$inferSelect & {
@@ -108,6 +109,15 @@ export default function Invoice({ invoice }: InvoiceProps) {
                         Delete invoice
                       </button>
                     </DialogTrigger>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link
+                      href={`/invoices/${invoice.id}/payment`}
+                      className="w-full text-left flex gap-2 items-center"
+                    >
+                      <CreditCard className="w-4 h-auto" />
+                      Payment
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
