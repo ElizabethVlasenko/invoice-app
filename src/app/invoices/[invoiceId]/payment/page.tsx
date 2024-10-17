@@ -1,3 +1,4 @@
+import { createPayment } from "@/app/actions";
 import Container from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -71,7 +72,8 @@ export default async function page({
           <div>
             <h2 className="text-xl font-bold mb-4">Manage invoice</h2>
             {invoice.status === "open" && (
-              <form>
+              <form action={createPayment}>
+                <input type="hidden" name="id" value={invoice.id} />
                 <Button className="flex gap-2 bg-green-700 hover:bg-green-600 font-bold">
                   <CreditCard className="w-5 h-auto" /> Pay invoice
                 </Button>
