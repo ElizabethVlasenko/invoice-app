@@ -38,7 +38,8 @@ export default async function Page() {
       .innerJoin(Customers, eq(Invoices.customerId, Customers.id))
       .where(and(eq(Invoices.userId, userId), isNull(Invoices.organizationId)));
   }
-
+  console.log(results);
+  
   const invoices = results?.map(({ invoices, customers }) => {
     return {
       ...invoices,
